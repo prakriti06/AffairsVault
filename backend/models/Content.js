@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
-const SubjectSchema = new mongoose.Schema({
-  name: { type: String, required: true },
+const contentSchema = new mongoose.Schema({
+  title: { type: String, required: true },
   description: { type: String, required: true },
-  resources: [{ type: String }],
+  createdAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('Subject', SubjectSchema);
+module.exports = mongoose.model('Content', contentSchema);
 

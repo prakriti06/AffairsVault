@@ -1,26 +1,25 @@
 const express = require('express');
-const router = express.Router();
 const Content = require('../models/Content');
 
-// Get all content
+const router = express.Router();
+
 router.get('/', async (req, res) => {
   try {
     const content = await Content.find();
-    res.status(200).json(content);
+    res.json(content);
   } catch (error) {
-    res.status(400).send({ error: 'Error fetching content' });
+    res.status(500).json({ message: error.message });
   }
 });
 
-// Add new content (Admin)
 router.post('/', async (req, res) => {
-  const { title, category, description, contentLink } = req.body;
   try {
-    const newContent = new Content({ title, category, description, contentLink });
-    await newContent.save();
-    res.status(201).send({ message: 'Content added successfully' });
+    const { title, description } = req.body;
+    const content = new Content({ title, description });
+    await content.save();
+    res.status(201).json(content);
   } catch (error) {
-    res.status(400).send({ error: 'Error adding content' });
+    res.status(500).json({ message: error.message });
   }
 });
 
